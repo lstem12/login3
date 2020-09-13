@@ -36,6 +36,7 @@ public class UserInfoServlet extends HttpServlet {
 		while((str=br.readLine()) != null) {
 			sb.append(str);
 		}
+		System.out.println(sb);
 		UserInfoVO userInfoVO = new UserInfoVO();
 		userInfoVO = gson.fromJson(sb.toString(), UserInfoVO.class);
 		Map<String, Object> result = new HashMap<>();
