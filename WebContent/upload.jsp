@@ -12,6 +12,8 @@
 		파일2 : <input type="file" name="org_file_path2" id="org_file_path2"><br>
 		올린사람 : <input type="text" name="up_name" id="up_name"><br>
 		<button type="button" onclick="upload()">업로드</button>
+		<progress max="0" id="prog" value="0"></progress>
+		<div id="preDiv">0%</div>
 	</form>
 	<script>
 		function upload() {
@@ -26,10 +28,17 @@
 			}
 			var formData = new FormData();
 			var f1 = document.querySelector('#org_file_path1');
-			var f2 = document.querySelector('#org_file_path2');
-			formData.append('org_file_path1', f1.files[0]);
-			formData.append('org_file_path2', f2.files[0]);
+			var file1 = f1.files[0];
+			var progObj = document.querySelector('#prog');
+			progObj.max = file1.size;
+			//var f2 = document.querySelector('#org_file_path2');
+			formData.append('org_file_path1', file1);
+			//formData.append('org_file_path2', f2.files[0]);
 			formData.append('up_name', document.querySelector('#up_name').value);
+			xhr.upload.onprogress = function(f){
+				progObj.value = f.loaded;
+				document.querySelector('#preDiv').innerHTML = Math.floor((f.loaded/progObj.max)*100) + '%';
+			}
 			xhr.send(formData);
 		}
 	</script>
